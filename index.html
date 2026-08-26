@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pixel & Print Studio | Mobile Shop</title>
+  <title>Pixel & Print Studio</title>
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.preconnect.com">
+  <!-- Google Fonts: Plus Jakarta Sans, Fredoka & Pyidaungsu / Padauk support for Burmese -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Padauk:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
@@ -17,8 +17,9 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            display: ['"Fredoka"', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', '"Padauk"', 'sans-serif'],
+            display: ['"Fredoka"', '"Padauk"', 'sans-serif'],
+            burmese: ['"Padauk"', 'sans-serif'],
           },
           colors: {
             brand: {
@@ -37,10 +38,8 @@
     }
   </script>
   <style>
-    /* Hide scrollbars for clean mobile app feel */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    /* Tap highlight suppression */
     * { -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
@@ -50,148 +49,315 @@
   <div class="w-full max-w-md bg-[#fafafa] min-h-screen shadow-2xl relative flex flex-col">
 
     <!-- ==========================================
-         PRODUCT DATA SOURCE (EDIT ITEMS HERE)
+         I18N TRANSLATIONS & PRODUCT DATA
          ========================================== -->
     <script>
+      let currentLang = localStorage.getItem("preferred_lang") || null;
+
+      const I18N = {
+        en: {
+          tagline: "3D Prints • Fidgets • Custom",
+          heroBadge: "Handcrafted on Demand",
+          heroTitle: "Custom 3D avatars & tactile fidget clickers.",
+          heroDesc: "Tap any item for complete specifications, materials & order guide.",
+          heroHighlight: "Custom Photo Avatars Available",
+          searchPlaceholder: "Search clickers, avatars, charms...",
+          catalogMode: "Catalog Mode",
+          showing: "Showing",
+          items: "Items",
+          all: "All",
+          customGifts: "Custom Gifts",
+          fidgets: "3D Fidgets",
+          prints: "Prints & Charms",
+          customBadge: "Custom",
+          popularBadge: "Popular",
+          bestSellerBadge: "Best Seller",
+          handmadeBadge: "Handmade",
+          noMatch: "No matches found",
+          noMatchSub: "Try checking your spelling or select another category.",
+          howCustomWorks: "How Custom 3D Orders Work",
+          step1Title: "1. Send Photo / Text",
+          step1Desc: "Provide your selfie for a 3D cartoon avatar or custom nickname.",
+          step2Title: "2. 3D Model Preview",
+          step2Desc: "We design the 3D model and choose your requested colors.",
+          step3Title: "3. Printed & Shipped",
+          step3Desc: "Printed, UV resin cured, assembled, and dispatched in 2–4 days.",
+          aboutTitle: "About Pixel & Print Studio",
+          aboutDesc: "Small-batch workshop specializing in mechanical fidgets, personal 3D portraits, and shrink charms.",
+          studioLoc: "Chiang Mai, Thailand • Worldwide Shipping",
+          studioTime: "Custom Queue: 2–3 Days",
+          navCatalog: "Catalog",
+          navCustom: "Custom",
+          navStudio: "Studio",
+          navOrder: "Order DM",
+          modalSpecsTitle: "Product Specifications & Details",
+          materialLabel: "Material",
+          dimensionsLabel: "Dimensions",
+          leadTimeLabel: "Lead Time",
+          switchTypeLabel: "Switch Type",
+          modalOrderBtn: "Order / Inquire via Direct Message",
+          langSelectTitle: "Choose Your Language",
+          langSelectSub: "ဘာသာစကား ရွေးချယ်ပါ",
+          close: "Close"
+        },
+        my: {
+          tagline: "3D ပစ္စည်းများ • အကြောပြေ Fidget • စိတ်ကြိုက်လက်ဆောင်",
+          heroBadge: "အော်ဒါမှာယူမှုအလိုက် လက်လုပ်ပြုလုပ်ပေးသည်",
+          heroTitle: "စိတ်ကြိုက် 3D ကာတွန်းရုပ်တုနှင့် အသံထွက် Fidget ခလုတ်များ",
+          heroDesc: "အသေးစိတ်အချက်အလက်များနှင့် အော်ဒါမှာယူရန် ပစ္စည်းတစ်ခုချင်းစီကို နှိပ်ကြည့်ပါ။",
+          heroHighlight: "မိမိမျက်နှာပုံဖြင့် 3D ကာတွန်းရုပ်တု မှာယူနိုင်ပါသည်",
+          searchPlaceholder: "Fidget ခလုတ်၊ စတစ်ကာ၊ သော့ချိတ် ရှာဖွေပါ...",
+          catalogMode: "ပြခန်းမုဒ်",
+          showing: "စုစုပေါင်း",
+          items: "ခု",
+          all: "အားလုံး",
+          customGifts: "စိတ်ကြိုက်လက်ဆောင်",
+          fidgets: "3D Fidget ပစ္စည်းများ",
+          prints: "ပုံနှိပ်နှင့် ပလတ်စတစ်ချိတ်များ",
+          customBadge: "စိတ်ကြိုက်",
+          popularBadge: "လူကြိုက်များ",
+          bestSellerBadge: "အရောင်းရဆုံး",
+          handmadeBadge: "လက်လုပ်",
+          noMatch: "ရှာမတွေ့ပါ",
+          noMatchSub: "စာလုံးပေါင်း ပြန်လည်စစ်ဆေးပါ သို့မဟုတ် အမျိုးအစားပြောင်းကြည့်ပါ။",
+          howCustomWorks: "စိတ်ကြိုက် 3D လက်ဆောင် မှာယူပုံအဆင့်ဆင့်",
+          step1Title: "၁။ ဓာတ်ပုံ သို့မဟုတ် စာသားပေးပို့ပါ",
+          step1Desc: "3D ကာတွန်းခေါင်းပုံအတွက် မျက်နှာဓာတ်ပုံ သို့မဟုတ် ခလုတ်ပေါ်ရေးမည့် နာမည်ပေးပို့ပါ။",
+          step2Title: "၂။ 3D ပုံစံကြမ်း ပြသပေးခြင်း",
+          step2Desc: "3D ဒီဇိုင်းစဆွဲပြီး သင်နှစ်သက်သော ကာလာများကို ရွေးချယ်ပေးပါမည်။",
+          step3Title: "၃။ 3D ထုတ်လုပ်ပြီး ပို့ဆောင်ခြင်း",
+          step3Desc: "အသေးစိတ် 3D ပရင့်ထုတ်၊ UV resin လောင်းပြီး ၂-၄ ရက်အတွင်း ပို့ဆောင်ပေးပါသည်။",
+          aboutTitle: "Pixel & Print Studio အကြောင်း",
+          aboutDesc: "အရည်အသွေးမြင့် 3D ပစ္စည်းများ၊ စိတ်ပြေလက်ပျောက် ခလုတ်များနှင့် ချစ်စရာ ပလတ်စတစ်အလှချိတ်များ ထုတ်လုပ်သော စတူဒီယို ဖြစ်ပါသည်။",
+          studioLoc: "ချင်းမိုင်၊ ထိုင်းနိုင်ငံ • ကမ္ဘာအနှံ့ ပို့ဆောင်ပေးသည်",
+          studioTime: "စိတ်ကြိုက်အော်ဒါပြုလုပ်ချိန်: ၂–၃ ရက်",
+          navCatalog: "ပစ္စည်းများ",
+          navCustom: "စိတ်ကြိုက်",
+          navStudio: "စတူဒီယို",
+          navOrder: "မှာယူရန်",
+          modalSpecsTitle: "ပစ္စည်း အသေးစိတ် အချက်အလက်များ",
+          materialLabel: "ကုန်ကြမ်းပစ္စည်း",
+          dimensionsLabel: "အရွယ်အစား",
+          leadTimeLabel: "ကြာမြင့်ချိန်",
+          switchTypeLabel: "ခလုတ်အမျိုးအစား",
+          modalOrderBtn: "မက်ဆေ့ခ်ျဖြင့် စုံစမ်း/မှာယူရန်",
+          langSelectTitle: "Choose Your Language",
+          langSelectSub: "ဘာသာစကား ရွေးချယ်ပါ",
+          close: "ပိတ်မည်"
+        }
+      };
+
       const PRODUCTS = [
         {
           id: 1,
-          name: "Custom 3D Cartoon Avatar Head Keychain",
+          categoryKey: "customGifts",
+          badgeKey: "popularBadge",
+          isCustom: true,
           price: 18.50,
           originalPrice: 22.00,
           discount: 16,
-          isCustom: true,
-          badge: "Popular",
           image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-          category: "Custom Gifts",
-          description: "Turn any selfie or portrait into a stylized 3D printed cartoon avatar! Finished with protective coat and metal keyring."
+          name: {
+            en: "Custom 3D Cartoon Avatar Head Keychain",
+            my: "မိမိမျက်နှာပုံစံ စိတ်ကြိုက် 3D ကာတွန်းခေါင်း သော့ချိတ်"
+          },
+          description: {
+            en: "Turn any selfie or portrait into a stylized 3D printed cartoon avatar! Finished with protective coat and metal keyring.",
+            my: "မိမိဓာတ်ပုံ သို့မဟုတ် သူငယ်ချင်းပုံကို ပေးပို့ရုံဖြင့် ချစ်စရာ 3D ကာတွန်းခေါင်းပုံစံ သော့ချိတ်အဖြစ် ပြောင်းလဲဖန်တီးပေးပါသည်။"
+          },
+          specs: {
+            material: { en: "High-grade PLA+ Plastic & UV Coating", my: "အရည်အသွေးမြင့် PLA+ ပလတ်စတစ် နှင့် UV အကာအကွယ်လွှာ" },
+            dimensions: { en: "Approx. 40mm x 35mm", my: "ခန့်မှန်း ၄၀ မမ x ၃၅ မမ" },
+            leadTime: { en: "3–4 Business Days", my: "၃ မှ ၄ ရက်ခန့် ကြာမြင့်ပါမည်" },
+            switchType: { en: "Stainless Steel Keyring Loop", my: "သံချေးမတက်သော သော့ချိတ်ကွင်း" }
+          }
         },
         {
           id: 2,
-          name: "Custom Name Keyboard Switch Clicker",
+          categoryKey: "customGifts",
+          badgeKey: "bestSellerBadge",
+          isCustom: true,
           price: 11.00,
           originalPrice: 11.00,
           discount: 0,
-          isCustom: true,
-          badge: "Best Seller",
           image: "https://images.unsplash.com/photo-1589782182703-2aaa69037b5b?auto=format&fit=crop&w=800&q=80",
-          category: "Custom Gifts",
-          description: "Tactile mechanical keyboard switch enclosed in a custom embossed casing with your choice of name & colors."
+          name: {
+            en: "Custom Name Keyboard Switch Clicker",
+            my: "နာမည် စိတ်ကြိုက်ထွင်းနိုင်သော Keyboard ခလုတ် Fidget"
+          },
+          description: {
+            en: "Tactile mechanical keyboard switch enclosed in a custom embossed casing with your choice of name & colors.",
+            my: "မိမိစိတ်ကြိုက် အမည်စာသားနှင့် ကာလာကို ရွေးချယ်နိုင်ပြီး နှိပ်ရအသံထွက် အရမ်းကောင်းသော Keyboard Switch Fidget သော့ချိတ် ဖြစ်ပါသည်။"
+          },
+          specs: {
+            material: { en: "Dual-color Silk PLA Plastic", my: "အရောင်နှစ်ထပ် Silk PLA ပလတ်စတစ်" },
+            dimensions: { en: "25mm x 25mm x 30mm", my: "၂၅ မမ x ၂၅ မမ x ၃၀ မမ" },
+            leadTime: { en: "1–2 Business Days", my: "၁ မှ ၂ ရက်အတွင်း အမြန်ရနိုင်ပါသည်" },
+            switchType: { en: "Outemu Blue (Clicky & Tactile)", my: "Outemu Blue (အသံထွက်ပြတ်သားသော ခလုတ်)" }
+          }
         },
         {
           id: 3,
-          name: "Tactile Mechanical Switch Fidget",
+          categoryKey: "fidgets",
+          badgeKey: null,
+          isCustom: false,
           price: 7.50,
           originalPrice: 9.50,
           discount: 20,
-          isCustom: false,
-          badge: null,
           image: "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=800&q=80",
-          category: "3D Fidgets",
-          description: "Ultra-satisfying pocket fidget equipped with genuine blue clicky mechanical switches."
+          name: {
+            en: "Tactile Mechanical Switch Fidget",
+            my: "အသံမြည် Mechanical Switch Fidget ခလုတ်"
+          },
+          description: {
+            en: "Ultra-satisfying pocket fidget equipped with genuine blue clicky mechanical switches for stress relief.",
+            my: "စိတ်ဖိစီးမှုပြေလျော့စေရန် နှိပ်ရအသံကောင်းမွန်သော စစ်မှန်သည့် Blue Switch တပ်ဆင်ထားသည့် အိတ်ဆောင် Fidget ဖြစ်ပါသည်။"
+          },
+          specs: {
+            material: { en: "Matte Tough PLA", my: "အကြမ်းခံ Matte PLA ပလတ်စတစ်" },
+            dimensions: { en: "22mm x 22mm", my: "၂၂ မမ x ၂၂ မမ" },
+            leadTime: { en: "Ready to ship (Same day)", my: "အသင့်ရှိ ပစ္စည်း (ချက်ချင်းပို့နိုင်)" },
+            switchType: { en: "Clicky Blue Mechanical Switch", my: "Clicky Blue Mechanical Switch" }
+          }
         },
         {
           id: 4,
-          name: "Planetary Dual-Gear Fidget Ring",
+          categoryKey: "fidgets",
+          badgeKey: null,
+          isCustom: false,
           price: 9.00,
           originalPrice: 12.00,
           discount: 25,
-          isCustom: false,
-          badge: null,
           image: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80",
-          category: "3D Fidgets",
-          description: "Silent, pocket-sized interlocking gear mechanism printed in dual-tone silk filament."
+          name: {
+            en: "Planetary Dual-Gear Fidget Ring",
+            my: "ဂီယာလည်ပတ် Fidget လက်စွပ် / ကွင်း"
+          },
+          description: {
+            en: "Silent, pocket-sized interlocking gear mechanism printed in dual-tone silk filament.",
+            my: "အသံတိတ် လှည့်ပတ်ကစားနိုင်သော ဂီယာသွားများပါဝင်သည့် အိတ်ဆောင် လက်စွပ်ပုံစံ Fidget ဖြစ်ပါသည်။"
+          },
+          specs: {
+            material: { en: "Silk Tri-Color PLA", my: "အရောင်ပြေး Silk PLA" },
+            dimensions: { en: "35mm Diameter", my: "အချင်း ၃၅ မမ" },
+            leadTime: { en: "Ready to ship", my: "အသင့်ရှိ ပစ္စည်း" },
+            switchType: { en: "Planetary Dual-Gear Bearing", my: "ဂီယာလည်ပတ်စနစ်" }
+          }
         },
         {
           id: 5,
-          name: "Glossy Shrink Plastic Charm Keychain",
+          categoryKey: "prints",
+          badgeKey: "handmadeBadge",
+          isCustom: false,
           price: 6.50,
           originalPrice: 6.50,
           discount: 0,
-          isCustom: false,
-          badge: "Handmade",
           image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=800&q=80",
-          category: "Prints & Charms",
-          description: "Hand-drawn illustration on shrink plastic, baked and domed with scratch-proof UV epoxy resin."
+          name: {
+            en: "Glossy Shrink Plastic Charm Keychain",
+            my: "လက်လုပ် ပုံဆွဲ ပလတ်စတစ် ချိတ်အလှ သော့ချိတ်"
+          },
+          description: {
+            en: "Hand-drawn illustration on shrink plastic, baked and domed with scratch-proof UV epoxy resin.",
+            my: "ကျုံ့နိုင်သော ပလတ်စတစ်ပြားပေါ်တွင် ပုံဆွဲဖုတ်ပြီး အပေါ်မှ အခြစ်ရာခံ UV resin လောင်းထားသော ချစ်စရာ သော့ချိတ်လေး ဖြစ်ပါသည်။"
+          },
+          specs: {
+            material: { en: "Shrink Plastic Film + Domed Epoxy", my: "ကျုံ့ပလတ်စတစ်ပြား + UV Epoxy Resin" },
+            dimensions: { en: "45mm Length", my: "အလျား ၄၅ မမ" },
+            leadTime: { en: "1–2 Business Days", my: "၁ မှ ၂ ရက်အတွင်း ရနိုင်ပါသည်" },
+            switchType: { en: "Silver Lobster Clasp", my: "ငွေရောင် ကလစ်ချိတ်ကွင်း" }
+          }
         },
         {
           id: 6,
-          name: "Holographic Die-Cut Sticker Pack",
+          categoryKey: "prints",
+          badgeKey: null,
+          isCustom: false,
           price: 5.00,
           originalPrice: 6.50,
           discount: 23,
-          isCustom: false,
-          badge: null,
           image: "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?auto=format&fit=crop&w=800&q=80",
-          category: "Prints & Charms",
-          description: "5 pack of waterproof, vinyl stickers with reflective holographic shimmer."
-        },
-        {
-          id: 7,
-          name: "Articulated Flexi-Dragon Pocket Toy",
-          price: 8.50,
-          originalPrice: 10.00,
-          discount: 15,
-          isCustom: false,
-          badge: null,
-          image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
-          category: "3D Fidgets",
-          description: "Print-in-place flexible dragon with smooth moving joints. Perfect desk toy."
-        },
-        {
-          id: 8,
-          name: "Velvet Matte Tassel Bookmark",
-          price: 4.00,
-          originalPrice: 4.00,
-          discount: 0,
-          isCustom: false,
-          badge: null,
-          image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
-          category: "Prints & Charms",
-          description: "Heavy 350gsm cardstock with velvety soft-touch lamination and silky tassel."
+          name: {
+            en: "Holographic Die-Cut Sticker Pack",
+            my: "ရေစိုခံ အရောင်ပြေး Holographic စတစ်ကာအတွဲ"
+          },
+          description: {
+            en: "5 pack of waterproof, vinyl stickers with reflective holographic shimmer.",
+            my: "ရေစိုခံ၊ နေလောင်ဒဏ်ခံနိုင်သော Holographic အရောင်ပြေး စတစ်ကာ ၅ ခုပါ အတွဲ ဖြစ်ပါသည်။"
+          },
+          specs: {
+            material: { en: "Laminated Holographic Vinyl", my: "Holographic Vinyl စတစ်ကာသား" },
+            dimensions: { en: "5cm to 7cm each", my: "တစ်ခုချင်း ၅ စင်တီမီတာ မှ ၇ စင်တီမီတာ" },
+            leadTime: { en: "Ready to ship", my: "အသင့်ရှိ ပစ္စည်း" },
+            switchType: { en: "Self-Adhesive Waterproof", my: "ရေစိုခံ ကော်ပါပြီးသား" }
+          }
         }
       ];
     </script>
 
+    <!-- Language Selector Modal (Shown on First Visit) -->
+    <div id="langModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+      <div class="bg-white w-full max-w-xs rounded-3xl p-6 text-center shadow-2xl animate-in fade-in zoom-in duration-200">
+        <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto mb-3">
+          <i data-lucide="globe" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-display font-bold text-base text-slate-900 mb-1" id="langModalTitle">Choose Language</h3>
+        <p class="text-xs text-slate-500 mb-6" id="langModalSub">ဘာသာစကား ရွေးချယ်ပေးပါ</p>
+        
+        <div class="space-y-2.5">
+          <button onclick="selectLanguage('en')" class="w-full py-3 px-4 rounded-xl border border-slate-200 font-bold text-xs flex items-center justify-between hover:bg-slate-50 active:scale-98 transition">
+            <span class="flex items-center gap-2">🇬🇧 English</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+          </button>
+          <button onclick="selectLanguage('my')" class="w-full py-3 px-4 rounded-xl bg-slate-900 text-white font-bold text-xs flex items-center justify-between active:scale-98 transition shadow-sm">
+            <span class="flex items-center gap-2">🇲🇲 မြန်မာစာ (Myanmar)</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Top App Bar -->
     <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
+      <div class="flex items-center gap-2">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-500 to-accent-500 text-white flex items-center justify-center shadow-sm">
           <i data-lucide="box" class="w-5 h-5"></i>
         </div>
         <div>
-          <h1 class="font-display font-bold text-base leading-none text-slate-900">Pixel & Print</h1>
-          <p class="text-[10px] text-accent-600 font-bold tracking-tight mt-0.5">3D Prints • Fidgets • Custom</p>
+          <h1 class="font-display font-bold text-sm leading-none text-slate-900">Pixel & Print</h1>
+          <p id="t-tagline" class="text-[10px] text-accent-600 font-bold tracking-tight mt-0.5">3D Prints • Fidgets • Custom</p>
         </div>
       </div>
-      <a href="https://instagram.com" target="_blank" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 active:scale-95 transition-transform">
-        <i data-lucide="send" class="w-4 h-4"></i>
-      </a>
+      
+      <!-- Language Quick Toggle Pill -->
+      <button onclick="toggleLanguage()" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200/80 text-[11px] font-bold text-slate-700 active:scale-95 transition">
+        <i data-lucide="languages" class="w-3.5 h-3.5 text-brand-600"></i>
+        <span id="currentLangLabel">EN</span>
+      </button>
     </header>
 
     <!-- App Content Scrollable Body -->
     <div class="flex-1 overflow-y-auto">
 
-      <!-- Hero / Notice Carousel Card -->
+      <!-- Hero Notice Card -->
       <div class="px-4 pt-4">
         <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-brand-900 text-white rounded-2xl p-4.5 p-5 shadow-sm relative overflow-hidden">
           <div class="relative z-10">
-            <span class="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-2">
+            <span id="t-heroBadge" class="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-2">
               <i data-lucide="sparkles" class="w-3 h-3 text-pink-400"></i> Handcrafted on Demand
             </span>
-            <h2 class="font-display text-xl font-bold leading-snug mb-1">
+            <h2 id="t-heroTitle" class="font-display text-lg font-bold leading-snug mb-1">
               Custom 3D avatars & tactile fidget clickers.
             </h2>
-            <p class="text-xs text-slate-300 leading-relaxed mb-3">
-              Tap any item to view details or send a custom design request.
+            <p id="t-heroDesc" class="text-xs text-slate-300 leading-relaxed mb-3">
+              Tap any item for complete specifications, materials & order guide.
             </p>
             <div class="flex items-center gap-2">
-              <span class="inline-flex items-center gap-1 text-[11px] font-bold bg-pink-500 text-white px-2.5 py-1 rounded-lg">
+              <span id="t-heroHighlight" class="inline-flex items-center gap-1 text-[10px] font-bold bg-pink-500 text-white px-2.5 py-1 rounded-lg">
                 <i data-lucide="wand-2" class="w-3 h-3"></i> Custom Photo Avatars Available
               </span>
             </div>
           </div>
-          <!-- Decorative Background Elements -->
           <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-brand-500/20 rounded-full blur-xl pointer-events-none"></div>
           <div class="absolute -right-2 -top-2 w-20 h-20 bg-accent-500/20 rounded-full blur-lg pointer-events-none"></div>
         </div>
@@ -204,7 +370,7 @@
           <input 
             type="text" 
             id="searchInput" 
-            placeholder="Search 3D clickers, avatars, charms..." 
+            placeholder="Search clickers, avatars, charms..." 
             class="w-full bg-white pl-9 pr-8 py-2 rounded-xl text-xs border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition shadow-2xs font-medium placeholder-slate-400"
           >
           <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
@@ -222,8 +388,8 @@
       <!-- Feed / Grid Container -->
       <div class="px-4 pt-3 pb-8">
         <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">
-          <span id="resultCount">Loading items...</span>
-          <span class="text-brand-600">Catalog Mode</span>
+          <span id="resultCount">Showing 0 Items</span>
+          <span id="t-catalogMode" class="text-brand-600">Catalog Mode</span>
         </div>
 
         <!-- Mobile 2-Column Product Grid -->
@@ -236,31 +402,40 @@
           <div class="w-12 h-12 bg-white text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm border border-slate-200">
             <i data-lucide="search-x" class="w-6 h-6"></i>
           </div>
-          <h4 class="font-display font-bold text-sm text-slate-800 mb-1">No matches found</h4>
-          <p class="text-xs text-slate-500">Try checking your spelling or select a different category pill.</p>
+          <h4 id="t-noMatch" class="font-display font-bold text-sm text-slate-800 mb-1">No matches found</h4>
+          <p id="t-noMatchSub" class="text-xs text-slate-500">Try checking your spelling or select a different category.</p>
         </div>
       </div>
 
-      <!-- Customization Workflow Sheet / Section -->
+      <!-- Customization Workflow Section -->
       <section id="custom-guide" class="px-4 py-6 bg-white border-t border-slate-200/80 mb-4">
         <div class="flex items-center gap-2 mb-3">
           <span class="w-6 h-6 rounded-lg bg-pink-100 text-pink-600 flex items-center justify-center">
             <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
           </span>
-          <h3 class="font-display font-bold text-sm text-slate-900">How Custom 3D Orders Work</h3>
+          <h3 id="t-howCustomWorks" class="font-display font-bold text-sm text-slate-900">How Custom 3D Orders Work</h3>
         </div>
         <div class="space-y-3 text-xs text-slate-600">
           <div class="flex items-start gap-2.5 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-            <span class="font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full flex items-center justify-center shrink-0">1</span>
-            <p><strong>Send Photo/Text:</strong> Provide your selfie for a 3D cartoon head or choose your nickname for clickers.</p>
+            <span class="font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[11px]">1</span>
+            <div>
+              <strong id="t-step1Title" class="text-slate-800 block">1. Send Photo / Text</strong>
+              <p id="t-step1Desc" class="text-slate-500 text-[11px] mt-0.5">Provide your selfie for a 3D cartoon avatar or custom nickname.</p>
+            </div>
           </div>
           <div class="flex items-start gap-2.5 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-            <span class="font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full flex items-center justify-center shrink-0">2</span>
-            <p><strong>3D Model Preview:</strong> We model your cartoon likeness and select your requested filament colors.</p>
+            <span class="font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[11px]">2</span>
+            <div>
+              <strong id="t-step2Title" class="text-slate-800 block">2. 3D Model Preview</strong>
+              <p id="t-step2Desc" class="text-slate-500 text-[11px] mt-0.5">We design the 3D model and choose your requested colors.</p>
+            </div>
           </div>
           <div class="flex items-start gap-2.5 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-            <span class="font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full flex items-center justify-center shrink-0">3</span>
-            <p><strong>Printed & Shipped:</strong> High-detail 3D printed, cured, assembled, and dispatched in 2–4 days.</p>
+            <span class="font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-[11px]">3</span>
+            <div>
+              <strong id="t-step3Title" class="text-slate-800 block">3. Printed & Shipped</strong>
+              <p id="t-step3Desc" class="text-slate-500 text-[11px] mt-0.5">Printed, UV resin cured, assembled, and dispatched in 2–4 days.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -268,50 +443,50 @@
       <!-- Shop Info Section -->
       <section id="shop-info" class="px-4 py-6 bg-slate-50 border-t border-slate-200/70 text-xs text-slate-600 space-y-4">
         <div>
-          <h3 class="font-display font-bold text-sm text-slate-900 mb-1">About Pixel & Print Studio</h3>
-          <p class="leading-relaxed text-slate-500">
-            Small-batch 3D printing workshop specializing in functional fidgets, personalized toys, and printed charms.
+          <h3 id="t-aboutTitle" class="font-display font-bold text-sm text-slate-900 mb-1">About Pixel & Print Studio</h3>
+          <p id="t-aboutDesc" class="leading-relaxed text-slate-500">
+            Small-batch workshop specializing in mechanical fidgets, personal 3D portraits, and shrink charms.
           </p>
         </div>
         <div class="space-y-2 pt-2 border-t border-slate-200/60">
           <div class="flex items-center gap-2 text-slate-700">
-            <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i>
-            <span>Based in Chiang Mai, Thailand • Ships Worldwide</span>
+            <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 shrink-0"></i>
+            <span id="t-studioLoc">Chiang Mai, Thailand • Worldwide Shipping</span>
           </div>
           <div class="flex items-center gap-2 text-slate-700">
-            <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
-            <span>Custom modeling queue: 2–3 Days</span>
+            <i data-lucide="clock" class="w-4 h-4 text-slate-400 shrink-0"></i>
+            <span id="t-studioTime">Custom Queue: 2–3 Days</span>
           </div>
         </div>
       </section>
     </div>
 
-    <!-- Sticky Bottom Navigation Bar (Mobile App Bar) -->
+    <!-- Sticky Bottom Navigation Bar -->
     <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/95 backdrop-blur-md border-t border-slate-200 px-6 py-2 flex items-center justify-between z-40 shadow-lg">
       <button onclick="scrollToTop()" class="flex flex-col items-center gap-0.5 text-brand-600 active:scale-95 transition-transform">
         <i data-lucide="layout-grid" class="w-5 h-5"></i>
-        <span class="text-[10px] font-bold">Catalog</span>
+        <span id="t-navCatalog" class="text-[10px] font-bold">Catalog</span>
       </button>
 
       <a href="#custom-guide" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-700 active:scale-95 transition-transform">
         <i data-lucide="sparkles" class="w-5 h-5"></i>
-        <span class="text-[10px] font-medium">Custom</span>
+        <span id="t-navCustom" class="text-[10px] font-medium">Custom</span>
       </a>
 
       <a href="#shop-info" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-700 active:scale-95 transition-transform">
         <i data-lucide="info" class="w-5 h-5"></i>
-        <span class="text-[10px] font-medium">Studio</span>
+        <span id="t-navStudio" class="text-[10px] font-medium">Studio</span>
       </a>
 
       <a href="https://wa.me/" target="_blank" class="flex items-center gap-1.5 bg-slate-900 text-white px-3.5 py-1.5 rounded-full text-xs font-bold active:scale-95 transition-transform shadow-sm">
         <i data-lucide="message-circle" class="w-3.5 h-3.5 text-pink-400"></i>
-        <span>Order DM</span>
+        <span id="t-navOrder">Order DM</span>
       </a>
     </nav>
 
-    <!-- Product Detail Bottom Sheet / Modal (Phone-Friendly) -->
+    <!-- Comprehensive Product Detail Bottom Sheet / Modal -->
     <div id="productModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-end justify-center hidden opacity-0 transition-opacity duration-200">
-      <div class="bg-white w-full max-w-md rounded-t-3xl p-5 pb-8 shadow-2xl transform translate-y-full transition-transform duration-200 max-h-[85vh] overflow-y-auto">
+      <div class="bg-white w-full max-w-md rounded-t-3xl p-5 pb-8 shadow-2xl transform translate-y-full transition-transform duration-200 max-h-[90vh] overflow-y-auto">
         
         <!-- Handlebar -->
         <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-4" onclick="closeModal()"></div>
@@ -323,39 +498,72 @@
           </button>
         </div>
 
+        <!-- Product Image with custom badge -->
         <div class="rounded-2xl overflow-hidden aspect-square bg-slate-100 mb-4 relative">
           <img id="modalImg" src="" alt="Product" class="w-full h-full object-cover">
-          <span id="modalCustomBadge" class="hidden absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-            Customizable
+          <span id="modalCustomBadge" class="hidden absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-xs">
+            Custom
           </span>
         </div>
 
+        <!-- Price -->
         <div class="flex items-baseline gap-2 mb-1">
           <span id="modalPrice" class="text-2xl font-extrabold text-slate-900">$0.00</span>
           <span id="modalOriginalPrice" class="text-sm text-slate-400 line-through font-medium hidden">$0.00</span>
         </div>
 
-        <h3 id="modalTitle" class="font-display font-bold text-lg text-slate-900 mb-2">Product Title</h3>
-        <p id="modalDesc" class="text-xs text-slate-600 leading-relaxed mb-6">Description text...</p>
+        <h3 id="modalTitle" class="font-display font-bold text-base text-slate-900 mb-2 leading-snug">Product Title</h3>
+        <p id="modalDesc" class="text-xs text-slate-600 leading-relaxed mb-5">Description text...</p>
 
-        <!-- Direct Action Buttons -->
-        <div class="flex gap-2">
-          <a id="modalOrderBtn" href="#" target="_blank" class="flex-1 bg-slate-900 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 active:scale-98 transition-transform">
-            <i data-lucide="message-circle" class="w-4 h-4 text-pink-400"></i> Ask / Inquire About Item
-          </a>
+        <!-- Detailed Specifications Box -->
+        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 mb-6 space-y-2.5">
+          <h4 id="t-modalSpecsTitle" class="text-xs font-bold text-slate-900 uppercase tracking-wider">Product Specifications & Details</h4>
+          <div class="grid grid-cols-2 gap-2 pt-1 text-[11px]">
+            <div class="bg-white p-2.5 rounded-xl border border-slate-100">
+              <span id="t-matLabel" class="text-slate-400 block text-[10px]">Material</span>
+              <strong id="modalMaterial" class="text-slate-800 font-semibold mt-0.5 block">PLA+</strong>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-100">
+              <span id="t-dimLabel" class="text-slate-400 block text-[10px]">Dimensions</span>
+              <strong id="modalDimensions" class="text-slate-800 font-semibold mt-0.5 block">Standard</strong>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-100">
+              <span id="t-leadLabel" class="text-slate-400 block text-[10px]">Lead Time</span>
+              <strong id="modalLeadTime" class="text-slate-800 font-semibold mt-0.5 block">1-2 Days</strong>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-slate-100">
+              <span id="t-switchLabel" class="text-slate-400 block text-[10px]">Type / Mech</span>
+              <strong id="modalSwitch" class="text-slate-800 font-semibold mt-0.5 block">Mechanical</strong>
+            </div>
+          </div>
         </div>
+
+        <!-- Direct Action Button -->
+        <a id="modalOrderBtn" href="#" target="_blank" class="w-full bg-slate-900 text-white py-3.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 active:scale-98 transition-transform shadow-md">
+          <i data-lucide="message-circle" class="w-4 h-4 text-pink-400"></i> 
+          <span id="t-modalOrderBtn">Order / Inquire via Direct Message</span>
+        </a>
       </div>
     </div>
 
   </div>
 
   <!-- ==========================================
-       MOBILE INTERACTIONS JAVASCRIPT
+       DYNAMIC LOGIC & I18N SYSTEM
        ========================================== -->
   <script>
-    let activeCategory = "All";
+    let activeCategoryKey = "all";
     let searchQuery = "";
 
+    const categoryKeys = [
+      { key: "all", i18nKey: "all" },
+      { key: "customGifts", i18nKey: "customGifts" },
+      { key: "fidgets", i18nKey: "fidgets" },
+      { key: "prints", i18nKey: "prints" }
+    ];
+
+    const langModal = document.getElementById("langModal");
+    const currentLangLabel = document.getElementById("currentLangLabel");
     const productGrid = document.getElementById("productGrid");
     const categoryContainer = document.getElementById("categoryContainer");
     const searchInput = document.getElementById("searchInput");
@@ -373,40 +581,110 @@
     const modalOriginalPrice = document.getElementById("modalOriginalPrice");
     const modalTitle = document.getElementById("modalTitle");
     const modalDesc = document.getElementById("modalDesc");
+    const modalMaterial = document.getElementById("modalMaterial");
+    const modalDimensions = document.getElementById("modalDimensions");
+    const modalLeadTime = document.getElementById("modalLeadTime");
+    const modalSwitch = document.getElementById("modalSwitch");
     const modalOrderBtn = document.getElementById("modalOrderBtn");
 
-    function getCategories() {
-      const categories = new Set(PRODUCTS.map(p => p.category));
-      return ["All", ...Array.from(categories)];
+    function initLanguage() {
+      if (!currentLang) {
+        langModal.classList.remove("hidden");
+      } else {
+        applyLanguage(currentLang);
+      }
+    }
+
+    function selectLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem("preferred_lang", lang);
+      langModal.classList.add("hidden");
+      applyLanguage(lang);
+    }
+
+    function toggleLanguage() {
+      const nextLang = currentLang === "en" ? "my" : "en";
+      selectLanguage(nextLang);
+    }
+
+    function applyLanguage(lang) {
+      const dict = I18N[lang];
+      currentLangLabel.textContent = lang === "en" ? "EN 🇬🇧" : "မြန်မာ 🇲🇲";
+
+      // Update static text elements
+      document.getElementById("t-tagline").textContent = dict.tagline;
+      document.getElementById("t-heroBadge").innerHTML = `<i data-lucide="sparkles" class="w-3 h-3 text-pink-400"></i> ${dict.heroBadge}`;
+      document.getElementById("t-heroTitle").textContent = dict.heroTitle;
+      document.getElementById("t-heroDesc").textContent = dict.heroDesc;
+      document.getElementById("t-heroHighlight").innerHTML = `<i data-lucide="wand-2" class="w-3 h-3"></i> ${dict.heroHighlight}`;
+      searchInput.placeholder = dict.searchPlaceholder;
+      document.getElementById("t-catalogMode").textContent = dict.catalogMode;
+      document.getElementById("t-noMatch").textContent = dict.noMatch;
+      document.getElementById("t-noMatchSub").textContent = dict.noMatchSub;
+      
+      document.getElementById("t-howCustomWorks").textContent = dict.howCustomWorks;
+      document.getElementById("t-step1Title").textContent = dict.step1Title;
+      document.getElementById("t-step1Desc").textContent = dict.step1Desc;
+      document.getElementById("t-step2Title").textContent = dict.step2Title;
+      document.getElementById("t-step2Desc").textContent = dict.step2Desc;
+      document.getElementById("t-step3Title").textContent = dict.step3Title;
+      document.getElementById("t-step3Desc").textContent = dict.step3Desc;
+      
+      document.getElementById("t-aboutTitle").textContent = dict.aboutTitle;
+      document.getElementById("t-aboutDesc").textContent = dict.aboutDesc;
+      document.getElementById("t-studioLoc").textContent = dict.studioLoc;
+      document.getElementById("t-studioTime").textContent = dict.studioTime;
+
+      document.getElementById("t-navCatalog").textContent = dict.navCatalog;
+      document.getElementById("t-navCustom").textContent = dict.navCustom;
+      document.getElementById("t-navStudio").textContent = dict.navStudio;
+      document.getElementById("t-navOrder").textContent = dict.navOrder;
+
+      document.getElementById("t-modalSpecsTitle").textContent = dict.modalSpecsTitle;
+      document.getElementById("t-matLabel").textContent = dict.materialLabel;
+      document.getElementById("t-dimLabel").textContent = dict.dimensionsLabel;
+      document.getElementById("t-leadLabel").textContent = dict.leadTimeLabel;
+      document.getElementById("t-switchLabel").textContent = dict.switchTypeLabel;
+      document.getElementById("t-modalOrderBtn").textContent = dict.modalOrderBtn;
+
+      renderCategories();
+      renderProducts();
+      lucide.createIcons();
     }
 
     function renderCategories() {
-      const categories = getCategories();
-      categoryContainer.innerHTML = categories.map(cat => {
-        const isActive = cat === activeCategory;
+      const dict = I18N[currentLang || "en"];
+      categoryContainer.innerHTML = categoryKeys.map(cat => {
+        const isActive = cat.key === activeCategoryKey;
+        const label = dict[cat.i18nKey];
         return `
           <button 
-            onclick="setCategory('${cat}')" 
+            onclick="setCategory('${cat.key}')" 
             class="px-3.5 py-1.5 rounded-full font-bold text-xs whitespace-nowrap transition-all duration-150 shrink-0 ${
               isActive 
                 ? 'bg-slate-900 text-white shadow-xs scale-102' 
                 : 'bg-white text-slate-600 border border-slate-200/80 active:bg-slate-100'
             }">
-            ${cat}
+            ${label}
           </button>
         `;
       }).join("");
     }
 
     function renderProducts() {
+      const lang = currentLang || "en";
+      const dict = I18N[lang];
+
       const filtered = PRODUCTS.filter(p => {
-        const matchCat = activeCategory === "All" || p.category === activeCategory;
-        const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            p.description.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchCat = activeCategoryKey === "all" || p.categoryKey === activeCategoryKey;
+        const nameText = p.name[lang] || p.name["en"];
+        const descText = p.description[lang] || p.description["en"];
+        const matchSearch = nameText.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            descText.toLowerCase().includes(searchQuery.toLowerCase());
         return matchCat && matchSearch;
       });
 
-      resultCount.textContent = `${filtered.length} Items`;
+      resultCount.textContent = `${dict.showing} ${filtered.length} ${dict.items}`;
 
       if (filtered.length === 0) {
         productGrid.innerHTML = "";
@@ -418,6 +696,11 @@
 
       productGrid.innerHTML = filtered.map(item => {
         const hasDiscount = item.discount && item.discount > 0;
+        const name = item.name[lang] || item.name["en"];
+        const desc = item.description[lang] || item.description["en"];
+        const categoryName = dict[item.categoryKey];
+        const badgeName = item.badgeKey ? dict[item.badgeKey] : null;
+
         return `
           <div 
             onclick="openModal(${item.id})" 
@@ -426,21 +709,20 @@
             <div class="relative aspect-square bg-slate-100 overflow-hidden">
               <img 
                 src="${item.image}" 
-                alt="${item.name}" 
+                alt="${name}" 
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 loading="lazy"
               />
               
-              <!-- Badges -->
               <div class="absolute top-2 left-2 flex flex-col gap-1">
                 ${item.isCustom ? `
                   <span class="bg-pink-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs">
-                    Custom
+                    ${dict.customBadge}
                   </span>
                 ` : ''}
-                ${item.badge ? `
+                ${badgeName ? `
                   <span class="bg-slate-900/80 backdrop-blur-xs text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs">
-                    ${item.badge}
+                    ${badgeName}
                   </span>
                 ` : ''}
               </div>
@@ -461,11 +743,11 @@
               </div>
 
               <h3 class="font-display font-bold text-xs text-slate-900 line-clamp-2 leading-tight mb-1">
-                ${item.name}
+                ${name}
               </h3>
 
               <p class="text-[10px] text-slate-500 line-clamp-1 mt-auto">
-                ${item.description}
+                ${desc}
               </p>
             </div>
           </div>
@@ -475,23 +757,31 @@
       lucide.createIcons();
     }
 
-    function setCategory(cat) {
-      activeCategory = cat;
+    function setCategory(catKey) {
+      activeCategoryKey = catKey;
       renderCategories();
       renderProducts();
     }
 
-    // Modal Controller
+    // Modal Controller with Extended Details
     function openModal(id) {
+      const lang = currentLang || "en";
+      const dict = I18N[lang];
       const item = PRODUCTS.find(p => p.id === id);
       if (!item) return;
 
       modalImg.src = item.image;
-      modalCategory.textContent = item.category;
-      modalTitle.textContent = item.name;
-      modalDesc.textContent = item.description;
+      modalCategory.textContent = dict[item.categoryKey];
+      modalTitle.textContent = item.name[lang] || item.name["en"];
+      modalDesc.textContent = item.description[lang] || item.description["en"];
       modalPrice.textContent = `$${item.price.toFixed(2)}`;
       
+      // Specifications
+      modalMaterial.textContent = item.specs.material[lang] || item.specs.material["en"];
+      modalDimensions.textContent = item.specs.dimensions[lang] || item.specs.dimensions["en"];
+      modalLeadTime.textContent = item.specs.leadTime[lang] || item.specs.leadTime["en"];
+      modalSwitch.textContent = item.specs.switchType[lang] || item.specs.switchType["en"];
+
       if (item.discount > 0) {
         modalOriginalPrice.textContent = `$${item.originalPrice.toFixed(2)}`;
         modalOriginalPrice.classList.remove("hidden");
@@ -500,13 +790,14 @@
       }
 
       if (item.isCustom) {
+        modalCustomBadge.textContent = dict.customBadge;
         modalCustomBadge.classList.remove("hidden");
       } else {
         modalCustomBadge.classList.add("hidden");
       }
 
-      // Encode custom message for direct inquiry
-      const orderMessage = encodeURIComponent(`Hi! I'm interested in ordering: ${item.name} ($${item.price.toFixed(2)})`);
+      const itemName = item.name[lang] || item.name["en"];
+      const orderMessage = encodeURIComponent(`Hello! I would like to order / ask about: ${itemName} ($${item.price.toFixed(2)})`);
       modalOrderBtn.href = `https://wa.me/?text=${orderMessage}`;
 
       productModal.classList.remove("hidden");
@@ -530,7 +821,6 @@
       if (e.target === productModal) closeModal();
     });
 
-    // Search events
     searchInput.addEventListener("input", (e) => {
       searchQuery = e.target.value.trim();
       clearSearch.classList.toggle("hidden", searchQuery.length === 0);
@@ -548,10 +838,8 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    // Init
-    renderCategories();
-    renderProducts();
-    lucide.createIcons();
+    // Run on startup
+    initLanguage();
   </script>
 </body>
 </html>
