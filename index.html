@@ -2,14 +2,14 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pixel & Print Studio | 3D Prints, Fidgets & Custom Keepsakes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Pixel & Print Studio | Mobile Shop</title>
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.preconnect.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
@@ -24,14 +24,10 @@
             brand: {
               50: '#f0f9ff',
               100: '#e0f2fe',
-              200: '#bae6fd',
-              500: '#0ea5e9',
-              600: '#0284c7',
-              700: '#0369a1',
-              900: '#0c4a6e',
+              500: '#0284c7',
+              600: '#0369a1',
             },
             accent: {
-              400: '#f472b6',
               500: '#ec4899',
               600: '#db2777',
             }
@@ -40,295 +36,321 @@
       }
     }
   </script>
+  <style>
+    /* Hide scrollbars for clean mobile app feel */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* Tap highlight suppression */
+    * { -webkit-tap-highlight-color: transparent; }
+  </style>
 </head>
-<body class="bg-[#f8fafc] text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex justify-center pb-24">
 
-  <!-- ==========================================
-       PRODUCT DATA SOURCE (EDIT YOUR ITEMS HERE)
-       ========================================== -->
-  <script>
-    const PRODUCTS = [
-      {
-        id: 1,
-        name: "Custom 3D Cartoon Avatar Keychain",
-        price: 18.50,
-        originalPrice: 22.00,
-        discount: 16,
-        isCustom: true,
-        image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-        category: "Custom Gifts",
-        description: "Turn your photo into a custom 3D printed cartoon head keychain! Hand-finished and durable."
-      },
-      {
-        id: 2,
-        name: "Personalized Name Clicker Keychain",
-        price: 11.00,
-        originalPrice: 11.00,
-        discount: 0,
-        isCustom: true,
-        image: "https://images.unsplash.com/photo-1589782182703-2aaa69037b5b?auto=format&fit=crop&w=800&q=80",
-        category: "Custom Gifts",
-        description: "Custom embossed text with an ultra-satisfying mechanical keyboard switch inside."
-      },
-      {
-        id: 3,
-        name: "Mechanical Switch Keyboard Clicker",
-        price: 7.50,
-        originalPrice: 9.50,
-        discount: 20,
-        isCustom: false,
-        image: "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=800&q=80",
-        category: "3D Fidgets",
-        description: "Portable fidget keychain fitted with authentic clicky tactile mechanical switches."
-      },
-      {
-        id: 4,
-        name: "Dual-Gear Infinite Fidget Spinner",
-        price: 9.00,
-        originalPrice: 12.00,
-        discount: 25,
-        isCustom: false,
-        image: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80",
-        category: "3D Fidgets",
-        description: "Precision-meshed planetary gear system. Smooth, quiet, and pocket-sized."
-      },
-      {
-        id: 5,
-        name: "Holographic Vinyl Sticker Pack (5pcs)",
-        price: 5.50,
-        originalPrice: 7.00,
-        discount: 20,
-        isCustom: false,
-        image: "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?auto=format&fit=crop&w=800&q=80",
-        category: "Printed & Stationery",
-        description: "Waterproof, UV-resistant vinyl stickers with sparkling holographic laminate finish."
-      },
-      {
-        id: 6,
-        name: "Shrink Plastic Illustrated Keychain",
-        price: 6.50,
-        originalPrice: 6.50,
-        discount: 0,
-        isCustom: false,
-        image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=800&q=80",
-        category: "Printed & Stationery",
-        description: "Handcrafted shrinkable plastic charms sealed with high-gloss domed resin."
-      },
-      {
-        id: 7,
-        name: "Matte Art Bookmark with Tassel",
-        price: 4.00,
-        originalPrice: 4.00,
-        discount: 0,
-        isCustom: false,
-        image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
-        category: "Printed & Stationery",
-        description: "Heavyweight 350gsm silk cardstock bookmark with velvety soft-touch coating."
-      },
-      {
-        id: 8,
-        name: "Articulated Flexi-Dragon Keychain",
-        price: 8.50,
-        originalPrice: 10.00,
-        discount: 15,
-        isCustom: false,
-        image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
-        category: "3D Fidgets",
-        description: "Print-in-place flexible companion printed in vibrant dual-color silk filament."
-      }
-    ];
-  </script>
+  <!-- Mobile App Frame Container -->
+  <div class="w-full max-w-md bg-[#fafafa] min-h-screen shadow-2xl relative flex flex-col">
 
-  <!-- Navigation -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-4">
-      <a href="#" class="flex items-center gap-2.5 group">
-        <span class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-500 text-white flex items-center justify-center shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
-          <i data-lucide="layers" class="w-5 h-5"></i>
-        </span>
+    <!-- ==========================================
+         PRODUCT DATA SOURCE (EDIT ITEMS HERE)
+         ========================================== -->
+    <script>
+      const PRODUCTS = [
+        {
+          id: 1,
+          name: "Custom 3D Cartoon Avatar Head Keychain",
+          price: 18.50,
+          originalPrice: 22.00,
+          discount: 16,
+          isCustom: true,
+          badge: "Popular",
+          image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+          category: "Custom Gifts",
+          description: "Turn any selfie or portrait into a stylized 3D printed cartoon avatar! Finished with protective coat and metal keyring."
+        },
+        {
+          id: 2,
+          name: "Custom Name Keyboard Switch Clicker",
+          price: 11.00,
+          originalPrice: 11.00,
+          discount: 0,
+          isCustom: true,
+          badge: "Best Seller",
+          image: "https://images.unsplash.com/photo-1589782182703-2aaa69037b5b?auto=format&fit=crop&w=800&q=80",
+          category: "Custom Gifts",
+          description: "Tactile mechanical keyboard switch enclosed in a custom embossed casing with your choice of name & colors."
+        },
+        {
+          id: 3,
+          name: "Tactile Mechanical Switch Fidget",
+          price: 7.50,
+          originalPrice: 9.50,
+          discount: 20,
+          isCustom: false,
+          badge: null,
+          image: "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=800&q=80",
+          category: "3D Fidgets",
+          description: "Ultra-satisfying pocket fidget equipped with genuine blue clicky mechanical switches."
+        },
+        {
+          id: 4,
+          name: "Planetary Dual-Gear Fidget Ring",
+          price: 9.00,
+          originalPrice: 12.00,
+          discount: 25,
+          isCustom: false,
+          badge: null,
+          image: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80",
+          category: "3D Fidgets",
+          description: "Silent, pocket-sized interlocking gear mechanism printed in dual-tone silk filament."
+        },
+        {
+          id: 5,
+          name: "Glossy Shrink Plastic Charm Keychain",
+          price: 6.50,
+          originalPrice: 6.50,
+          discount: 0,
+          isCustom: false,
+          badge: "Handmade",
+          image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=800&q=80",
+          category: "Prints & Charms",
+          description: "Hand-drawn illustration on shrink plastic, baked and domed with scratch-proof UV epoxy resin."
+        },
+        {
+          id: 6,
+          name: "Holographic Die-Cut Sticker Pack",
+          price: 5.00,
+          originalPrice: 6.50,
+          discount: 23,
+          isCustom: false,
+          badge: null,
+          image: "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?auto=format&fit=crop&w=800&q=80",
+          category: "Prints & Charms",
+          description: "5 pack of waterproof, vinyl stickers with reflective holographic shimmer."
+        },
+        {
+          id: 7,
+          name: "Articulated Flexi-Dragon Pocket Toy",
+          price: 8.50,
+          originalPrice: 10.00,
+          discount: 15,
+          isCustom: false,
+          badge: null,
+          image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
+          category: "3D Fidgets",
+          description: "Print-in-place flexible dragon with smooth moving joints. Perfect desk toy."
+        },
+        {
+          id: 8,
+          name: "Velvet Matte Tassel Bookmark",
+          price: 4.00,
+          originalPrice: 4.00,
+          discount: 0,
+          isCustom: false,
+          badge: null,
+          image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
+          category: "Prints & Charms",
+          description: "Heavy 350gsm cardstock with velvety soft-touch lamination and silky tassel."
+        }
+      ];
+    </script>
+
+    <!-- Top App Bar -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-500 to-accent-500 text-white flex items-center justify-center shadow-sm">
+          <i data-lucide="box" class="w-5 h-5"></i>
+        </div>
         <div>
-          <span class="font-display text-xl font-bold tracking-tight text-slate-900 block leading-tight">Pixel & Print</span>
-          <span class="text-[10px] uppercase tracking-wider text-accent-600 font-bold">3D Prints & Custom Crafts</span>
+          <h1 class="font-display font-bold text-base leading-none text-slate-900">Pixel & Print</h1>
+          <p class="text-[10px] text-accent-600 font-bold tracking-tight mt-0.5">3D Prints • Fidgets • Custom</p>
         </div>
+      </div>
+      <a href="https://instagram.com" target="_blank" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 active:scale-95 transition-transform">
+        <i data-lucide="send" class="w-4 h-4"></i>
       </a>
-      <nav class="flex items-center gap-6 text-sm font-semibold text-slate-600">
-        <a href="#catalogue" class="hover:text-brand-600 transition-colors">Catalog</a>
-        <a href="#custom-info" class="hover:text-brand-600 transition-colors">Custom Orders</a>
-        <a href="#about" class="hover:text-brand-600 transition-colors">About & FAQ</a>
-      </nav>
-    </div>
-  </header>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="relative bg-gradient-to-b from-sky-50 via-pink-50/30 to-[#f8fafc] py-16 sm:py-24 border-b border-slate-200/60 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="max-w-2xl">
-        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white text-slate-800 shadow-sm border border-slate-200/70 mb-4">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent-500"></i> Fresh off the build plate & print studio
-        </span>
-        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-4">
-          Tactile fidgets, cute stationery & personalized 3D art.
-        </h1>
-        <p class="text-base sm:text-lg text-slate-600 mb-8 leading-relaxed">
-          From satisfying mechanical switch clickers and shrink-plastic keychains to custom 3D cartoon avatar heads designed right from your photos.
-        </p>
-        <div class="flex flex-wrap gap-4">
-          <a href="#catalogue" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-semibold hover:bg-slate-800 transition-all shadow-md shadow-slate-900/10 hover:shadow-lg">
-            Explore All Items <i data-lucide="arrow-down" class="w-4 h-4"></i>
-          </a>
-          <a href="#custom-info" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-all">
-            How Custom Ordering Works
-          </a>
+    <!-- App Content Scrollable Body -->
+    <div class="flex-1 overflow-y-auto">
+
+      <!-- Hero / Notice Carousel Card -->
+      <div class="px-4 pt-4">
+        <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-brand-900 text-white rounded-2xl p-4.5 p-5 shadow-sm relative overflow-hidden">
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-2">
+              <i data-lucide="sparkles" class="w-3 h-3 text-pink-400"></i> Handcrafted on Demand
+            </span>
+            <h2 class="font-display text-xl font-bold leading-snug mb-1">
+              Custom 3D avatars & tactile fidget clickers.
+            </h2>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+              Tap any item to view details or send a custom design request.
+            </p>
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center gap-1 text-[11px] font-bold bg-pink-500 text-white px-2.5 py-1 rounded-lg">
+                <i data-lucide="wand-2" class="w-3 h-3"></i> Custom Photo Avatars Available
+              </span>
+            </div>
+          </div>
+          <!-- Decorative Background Elements -->
+          <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-brand-500/20 rounded-full blur-xl pointer-events-none"></div>
+          <div class="absolute -right-2 -top-2 w-20 h-20 bg-accent-500/20 rounded-full blur-lg pointer-events-none"></div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Product Catalogue Section -->
-  <main id="catalogue" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-    
-    <!-- Search & Filter Controls -->
-    <div class="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between mb-8 pb-6 border-b border-slate-200">
-      
-      <!-- Category Pills -->
-      <div id="categoryContainer" class="flex flex-wrap items-center gap-2">
-        <!-- Dynamically rendered via JS -->
-      </div>
-
-      <!-- Live Search Bar -->
-      <div class="relative min-w-[280px]">
-        <input 
-          type="text" 
-          id="searchInput" 
-          placeholder="Search clickers, stickers, gifts..." 
-          class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all shadow-sm"
-        >
-        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-      </div>
-    </div>
-
-    <!-- Results Counter -->
-    <div class="flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-wider mb-6">
-      <span id="resultCount">Showing all items</span>
-      <span class="text-slate-400">Viewer Catalog • Contact to Order</span>
-    </div>
-
-    <!-- Product Grid -->
-    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- Cards rendered via JS -->
-    </div>
-
-    <!-- Empty State -->
-    <div id="emptyState" class="hidden text-center py-20">
-      <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-slate-200">
-        <i data-lucide="package-search" class="w-8 h-8"></i>
-      </div>
-      <h3 class="text-lg font-semibold text-slate-800 mb-1">No items found</h3>
-      <p class="text-sm text-slate-500 max-w-sm mx-auto">Try checking your spelling or selecting another product category filter.</p>
-    </div>
-  </main>
-
-  <!-- Customization Banner / Explainer -->
-  <section id="custom-info" class="bg-gradient-to-r from-brand-900 to-slate-900 text-white py-14 border-y border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="flex gap-4">
-          <div class="w-12 h-12 rounded-xl bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center justify-center shrink-0">
-            <i data-lucide="smile" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <h4 class="font-display font-bold text-lg mb-1">1. Photo to 3D Avatar</h4>
-            <p class="text-sm text-slate-300 leading-relaxed">Send a portrait or selfie, and we convert your likeness into a stylized 3D printable cartoon keychain head.</p>
-          </div>
+      <!-- Sticky Search & Category Bar -->
+      <div class="sticky top-[57px] z-20 bg-[#fafafa]/95 backdrop-blur-md px-4 pt-3.5 pb-2 border-b border-slate-200/60">
+        <!-- Search Input -->
+        <div class="relative mb-2.5">
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search 3D clickers, avatars, charms..." 
+            class="w-full bg-white pl-9 pr-8 py-2 rounded-xl text-xs border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition shadow-2xs font-medium placeholder-slate-400"
+          >
+          <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <button id="clearSearch" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
         </div>
-        <div class="flex gap-4">
-          <div class="w-12 h-12 rounded-xl bg-accent-500/20 text-accent-400 border border-accent-500/30 flex items-center justify-center shrink-0">
-            <i data-lucide="keyboard" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <h4 class="font-display font-bold text-lg mb-1">2. Custom Names & Colors</h4>
-            <p class="text-sm text-slate-300 leading-relaxed">Personalize mechanical switch clickers with your gamer tag, nickname, and custom color combinations.</p>
-          </div>
-        </div>
-        <div class="flex gap-4">
-          <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0">
-            <i data-lucide="shield-check" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <h4 class="font-display font-bold text-lg mb-1">3. Durable & Tested</h4>
-            <p class="text-sm text-slate-300 leading-relaxed">All 3D parts use premium PLA/PETG filaments and shrink plastics are sealed under UV gloss protective resin.</p>
-          </div>
+
+        <!-- Horizontal Swipe Categories -->
+        <div id="categoryContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1 text-xs">
+          <!-- Rendered via JS -->
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- About Section -->
-  <section id="about" class="bg-white text-slate-900 py-16 border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div class="lg:col-span-7 space-y-6">
-          <span class="text-xs uppercase tracking-widest text-accent-600 font-bold">Behind the Studio</span>
-          <h2 class="font-display text-3xl sm:text-4xl font-bold leading-tight text-slate-900">
-            From digital 3D models to pocket-sized physical keepsakes.
-          </h2>
-          <p class="text-slate-600 leading-relaxed text-base">
-            Pixel & Print Studio started as a passion project focused on satisfying everyday fidget toys and custom digital modeling. Today, we craft everything in-house using high-precision 3D printers, specialty laminating gear, and UV curing stations to make custom gifts that bring smiles.
+      <!-- Feed / Grid Container -->
+      <div class="px-4 pt-3 pb-8">
+        <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">
+          <span id="resultCount">Loading items...</span>
+          <span class="text-brand-600">Catalog Mode</span>
+        </div>
+
+        <!-- Mobile 2-Column Product Grid -->
+        <div id="productGrid" class="grid grid-cols-2 gap-3">
+          <!-- Cards rendered via JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-12 px-4">
+          <div class="w-12 h-12 bg-white text-slate-400 rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm border border-slate-200">
+            <i data-lucide="search-x" class="w-6 h-6"></i>
+          </div>
+          <h4 class="font-display font-bold text-sm text-slate-800 mb-1">No matches found</h4>
+          <p class="text-xs text-slate-500">Try checking your spelling or select a different category pill.</p>
+        </div>
+      </div>
+
+      <!-- Customization Workflow Sheet / Section -->
+      <section id="custom-guide" class="px-4 py-6 bg-white border-t border-slate-200/80 mb-4">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-6 h-6 rounded-lg bg-pink-100 text-pink-600 flex items-center justify-center">
+            <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
+          </span>
+          <h3 class="font-display font-bold text-sm text-slate-900">How Custom 3D Orders Work</h3>
+        </div>
+        <div class="space-y-3 text-xs text-slate-600">
+          <div class="flex items-start gap-2.5 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <span class="font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full flex items-center justify-center shrink-0">1</span>
+            <p><strong>Send Photo/Text:</strong> Provide your selfie for a 3D cartoon head or choose your nickname for clickers.</p>
+          </div>
+          <div class="flex items-start gap-2.5 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <span class="font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full flex items-center justify-center shrink-0">2</span>
+            <p><strong>3D Model Preview:</strong> We model your cartoon likeness and select your requested filament colors.</p>
+          </div>
+          <div class="flex items-start gap-2.5 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <span class="font-bold text-brand-600 bg-brand-50 w-5 h-5 rounded-full flex items-center justify-center shrink-0">3</span>
+            <p><strong>Printed & Shipped:</strong> High-detail 3D printed, cured, assembled, and dispatched in 2–4 days.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Shop Info Section -->
+      <section id="shop-info" class="px-4 py-6 bg-slate-50 border-t border-slate-200/70 text-xs text-slate-600 space-y-4">
+        <div>
+          <h3 class="font-display font-bold text-sm text-slate-900 mb-1">About Pixel & Print Studio</h3>
+          <p class="leading-relaxed text-slate-500">
+            Small-batch 3D printing workshop specializing in functional fidgets, personalized toys, and printed charms.
           </p>
-          <div class="grid grid-cols-3 gap-6 pt-4 border-t border-slate-100 text-center sm:text-left">
-            <div>
-              <div class="text-2xl font-bold text-brand-600 font-display">100%</div>
-              <div class="text-xs text-slate-500 mt-0.5">In-House Crafted</div>
-            </div>
-            <div>
-              <div class="text-2xl font-bold text-brand-600 font-display">50+</div>
-              <div class="text-xs text-slate-500 mt-0.5">Filament Colors</div>
-            </div>
-            <div>
-              <div class="text-2xl font-bold text-brand-600 font-display">Custom</div>
-              <div class="text-xs text-slate-500 mt-0.5">Made on Demand</div>
-            </div>
+        </div>
+        <div class="space-y-2 pt-2 border-t border-slate-200/60">
+          <div class="flex items-center gap-2 text-slate-700">
+            <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i>
+            <span>Based in Chiang Mai, Thailand • Ships Worldwide</span>
+          </div>
+          <div class="flex items-center gap-2 text-slate-700">
+            <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
+            <span>Custom modeling queue: 2–3 Days</span>
           </div>
         </div>
+      </section>
+    </div>
+
+    <!-- Sticky Bottom Navigation Bar (Mobile App Bar) -->
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/95 backdrop-blur-md border-t border-slate-200 px-6 py-2 flex items-center justify-between z-40 shadow-lg">
+      <button onclick="scrollToTop()" class="flex flex-col items-center gap-0.5 text-brand-600 active:scale-95 transition-transform">
+        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold">Catalog</span>
+      </button>
+
+      <a href="#custom-guide" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-700 active:scale-95 transition-transform">
+        <i data-lucide="sparkles" class="w-5 h-5"></i>
+        <span class="text-[10px] font-medium">Custom</span>
+      </a>
+
+      <a href="#shop-info" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-700 active:scale-95 transition-transform">
+        <i data-lucide="info" class="w-5 h-5"></i>
+        <span class="text-[10px] font-medium">Studio</span>
+      </a>
+
+      <a href="https://wa.me/" target="_blank" class="flex items-center gap-1.5 bg-slate-900 text-white px-3.5 py-1.5 rounded-full text-xs font-bold active:scale-95 transition-transform shadow-sm">
+        <i data-lucide="message-circle" class="w-3.5 h-3.5 text-pink-400"></i>
+        <span>Order DM</span>
+      </a>
+    </nav>
+
+    <!-- Product Detail Bottom Sheet / Modal (Phone-Friendly) -->
+    <div id="productModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-end justify-center hidden opacity-0 transition-opacity duration-200">
+      <div class="bg-white w-full max-w-md rounded-t-3xl p-5 pb-8 shadow-2xl transform translate-y-full transition-transform duration-200 max-h-[85vh] overflow-y-auto">
         
-        <!-- Studio Info & Custom Request Card -->
-        <div class="lg:col-span-5 bg-slate-50 p-8 rounded-2xl border border-slate-200/80 shadow-sm">
-          <h3 class="font-display text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-            <i data-lucide="sparkles" class="w-5 h-5 text-brand-500"></i> Studio & Orders
-          </h3>
-          <ul class="space-y-4 text-sm text-slate-600">
-            <li class="flex items-start gap-3">
-              <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 mt-1 shrink-0"></i>
-              <span><strong>Studio Location:</strong> San Kamphaeng, Chiang Mai, Thailand (Online orders ship worldwide)</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <i data-lucide="clock" class="w-4 h-4 text-slate-400 mt-1 shrink-0"></i>
-              <div>
-                <strong>Turnaround Time:</strong>
-                <p class="text-slate-500 mt-0.5">Ready-to-ship stock: 1–2 business days</p>
-                <p class="text-slate-500">Custom 3D avatar modelling: 3–5 business days</p>
-              </div>
-            </li>
-            <li class="flex items-start gap-3">
-              <i data-lucide="mail" class="w-4 h-4 text-slate-400 mt-1 shrink-0"></i>
-              <span><strong>Custom Orders:</strong> DM @PixelPrintStudio or email orders@pixelprint.example</span>
-            </li>
-          </ul>
+        <!-- Handlebar -->
+        <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-4" onclick="closeModal()"></div>
+
+        <div class="flex justify-between items-start mb-3">
+          <span id="modalCategory" class="text-[11px] font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full">Category</span>
+          <button onclick="closeModal()" class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="rounded-2xl overflow-hidden aspect-square bg-slate-100 mb-4 relative">
+          <img id="modalImg" src="" alt="Product" class="w-full h-full object-cover">
+          <span id="modalCustomBadge" class="hidden absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+            Customizable
+          </span>
+        </div>
+
+        <div class="flex items-baseline gap-2 mb-1">
+          <span id="modalPrice" class="text-2xl font-extrabold text-slate-900">$0.00</span>
+          <span id="modalOriginalPrice" class="text-sm text-slate-400 line-through font-medium hidden">$0.00</span>
+        </div>
+
+        <h3 id="modalTitle" class="font-display font-bold text-lg text-slate-900 mb-2">Product Title</h3>
+        <p id="modalDesc" class="text-xs text-slate-600 leading-relaxed mb-6">Description text...</p>
+
+        <!-- Direct Action Buttons -->
+        <div class="flex gap-2">
+          <a id="modalOrderBtn" href="#" target="_blank" class="flex-1 bg-slate-900 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 active:scale-98 transition-transform">
+            <i data-lucide="message-circle" class="w-4 h-4 text-pink-400"></i> Ask / Inquire About Item
+          </a>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="bg-slate-950 text-slate-400 text-xs py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>© 2026 Pixel & Print Studio. 3D Printing & Custom Merchandise.</p>
-      <p>Viewer catalog — Message us directly for orders and customization requests.</p>
-    </div>
-  </footer>
+  </div>
 
   <!-- ==========================================
-       DYNAMIC UI & FILTER CONTROLLER
+       MOBILE INTERACTIONS JAVASCRIPT
        ========================================== -->
   <script>
     let activeCategory = "All";
@@ -337,44 +359,54 @@
     const productGrid = document.getElementById("productGrid");
     const categoryContainer = document.getElementById("categoryContainer");
     const searchInput = document.getElementById("searchInput");
+    const clearSearch = document.getElementById("clearSearch");
     const resultCount = document.getElementById("resultCount");
     const emptyState = document.getElementById("emptyState");
 
-    // Extract unique categories from array
+    // Modal elements
+    const productModal = document.getElementById("productModal");
+    const modalSheet = productModal.querySelector("div");
+    const modalImg = document.getElementById("modalImg");
+    const modalCategory = document.getElementById("modalCategory");
+    const modalCustomBadge = document.getElementById("modalCustomBadge");
+    const modalPrice = document.getElementById("modalPrice");
+    const modalOriginalPrice = document.getElementById("modalOriginalPrice");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalOrderBtn = document.getElementById("modalOrderBtn");
+
     function getCategories() {
       const categories = new Set(PRODUCTS.map(p => p.category));
       return ["All", ...Array.from(categories)];
     }
 
-    // Render Filter Buttons
-    function renderCategoryButtons() {
+    function renderCategories() {
       const categories = getCategories();
       categoryContainer.innerHTML = categories.map(cat => {
         const isActive = cat === activeCategory;
-        const activeClass = isActive 
-          ? "bg-slate-900 text-white shadow-sm" 
-          : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100";
-        
         return `
           <button 
             onclick="setCategory('${cat}')" 
-            class="px-4 py-2 text-xs font-bold rounded-full transition-all duration-150 ${activeClass}">
+            class="px-3.5 py-1.5 rounded-full font-bold text-xs whitespace-nowrap transition-all duration-150 shrink-0 ${
+              isActive 
+                ? 'bg-slate-900 text-white shadow-xs scale-102' 
+                : 'bg-white text-slate-600 border border-slate-200/80 active:bg-slate-100'
+            }">
             ${cat}
           </button>
         `;
       }).join("");
     }
 
-    // Filter and Render Products
     function renderProducts() {
-      const filtered = PRODUCTS.filter(product => {
-        const matchesCategory = activeCategory === "All" || product.category === activeCategory;
-        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                              product.description.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
+      const filtered = PRODUCTS.filter(p => {
+        const matchCat = activeCategory === "All" || p.category === activeCategory;
+        const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            p.description.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchCat && matchSearch;
       });
 
-      resultCount.textContent = `Showing ${filtered.length} of ${PRODUCTS.length} items`;
+      resultCount.textContent = `${filtered.length} Items`;
 
       if (filtered.length === 0) {
         productGrid.innerHTML = "";
@@ -386,54 +418,57 @@
 
       productGrid.innerHTML = filtered.map(item => {
         const hasDiscount = item.discount && item.discount > 0;
-        
         return `
-          <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col group">
-            <div class="relative overflow-hidden aspect-square bg-slate-100">
+          <div 
+            onclick="openModal(${item.id})" 
+            class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-2xs active:scale-98 transition-transform cursor-pointer flex flex-col group">
+            
+            <div class="relative aspect-square bg-slate-100 overflow-hidden">
               <img 
                 src="${item.image}" 
                 alt="${item.name}" 
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 loading="lazy"
-                onerror="this.src='https://images.unsplash.com/photo-1589782182703-2aaa69037b5b?auto=format&fit=crop&w=800&q=80'"
               />
               
-              <!-- Badges Container -->
-              <div class="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
-                <span class="bg-white/90 backdrop-blur-sm text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-xs">
-                  ${item.category}
-                </span>
+              <!-- Badges -->
+              <div class="absolute top-2 left-2 flex flex-col gap-1">
                 ${item.isCustom ? `
-                  <span class="bg-accent-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-xs flex items-center gap-1">
-                    <i data-lucide="wand-2" class="w-3 h-3"></i> Customizable
+                  <span class="bg-pink-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs">
+                    Custom
+                  </span>
+                ` : ''}
+                ${item.badge ? `
+                  <span class="bg-slate-900/80 backdrop-blur-xs text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs">
+                    ${item.badge}
                   </span>
                 ` : ''}
               </div>
 
               ${hasDiscount ? `
-                <span class="absolute top-3 right-3 bg-rose-500 text-white text-[11px] font-bold px-2 py-0.5 rounded-full shadow-xs">
+                <span class="absolute top-2 right-2 bg-rose-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md shadow-xs">
                   -${item.discount}%
                 </span>
               ` : ''}
             </div>
 
-            <div class="p-5 flex flex-col flex-grow">
-              <div class="flex items-baseline gap-2 mb-1.5">
-                <span class="text-lg font-extrabold text-slate-900">$${item.price.toFixed(2)}</span>
+            <div class="p-3 flex flex-col flex-1">
+              <div class="flex items-baseline gap-1.5 mb-1">
+                <span class="text-sm font-extrabold text-slate-900">$${item.price.toFixed(2)}</span>
                 ${hasDiscount ? `
-                  <span class="text-xs text-slate-400 line-through font-medium">$${item.originalPrice.toFixed(2)}</span>
+                  <span class="text-[10px] text-slate-400 line-through">$${item.originalPrice.toFixed(2)}</span>
                 ` : ''}
               </div>
 
-              <h3 class="font-display font-bold text-slate-900 text-base mb-2 group-hover:text-brand-600 transition-colors leading-snug">
+              <h3 class="font-display font-bold text-xs text-slate-900 line-clamp-2 leading-tight mb-1">
                 ${item.name}
               </h3>
 
-              <p class="text-xs text-slate-500 leading-relaxed line-clamp-2 mt-auto">
+              <p class="text-[10px] text-slate-500 line-clamp-1 mt-auto">
                 ${item.description}
               </p>
             </div>
-          </article>
+          </div>
         `;
       }).join("");
 
@@ -442,18 +477,79 @@
 
     function setCategory(cat) {
       activeCategory = cat;
-      renderCategoryButtons();
+      renderCategories();
       renderProducts();
     }
 
-    // Live search listener
+    // Modal Controller
+    function openModal(id) {
+      const item = PRODUCTS.find(p => p.id === id);
+      if (!item) return;
+
+      modalImg.src = item.image;
+      modalCategory.textContent = item.category;
+      modalTitle.textContent = item.name;
+      modalDesc.textContent = item.description;
+      modalPrice.textContent = `$${item.price.toFixed(2)}`;
+      
+      if (item.discount > 0) {
+        modalOriginalPrice.textContent = `$${item.originalPrice.toFixed(2)}`;
+        modalOriginalPrice.classList.remove("hidden");
+      } else {
+        modalOriginalPrice.classList.add("hidden");
+      }
+
+      if (item.isCustom) {
+        modalCustomBadge.classList.remove("hidden");
+      } else {
+        modalCustomBadge.classList.add("hidden");
+      }
+
+      // Encode custom message for direct inquiry
+      const orderMessage = encodeURIComponent(`Hi! I'm interested in ordering: ${item.name} ($${item.price.toFixed(2)})`);
+      modalOrderBtn.href = `https://wa.me/?text=${orderMessage}`;
+
+      productModal.classList.remove("hidden");
+      setTimeout(() => {
+        productModal.classList.remove("opacity-0");
+        modalSheet.classList.remove("translate-y-full");
+      }, 10);
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modalSheet.classList.add("translate-y-full");
+      productModal.classList.add("opacity-0");
+      setTimeout(() => {
+        productModal.classList.add("hidden");
+        document.body.style.overflow = "";
+      }, 200);
+    }
+
+    productModal.addEventListener("click", (e) => {
+      if (e.target === productModal) closeModal();
+    });
+
+    // Search events
     searchInput.addEventListener("input", (e) => {
       searchQuery = e.target.value.trim();
+      clearSearch.classList.toggle("hidden", searchQuery.length === 0);
       renderProducts();
     });
 
-    // Initialize
-    renderCategoryButtons();
+    clearSearch.addEventListener("click", () => {
+      searchInput.value = "";
+      searchQuery = "";
+      clearSearch.classList.add("hidden");
+      renderProducts();
+    });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Init
+    renderCategories();
     renderProducts();
     lucide.createIcons();
   </script>
