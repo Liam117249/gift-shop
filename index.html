@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Gilded Ribbon | Curated Gift Shop</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fdf8f6',
+              100: '#f2e8e5',
+              200: '#eaddd7',
+              500: '#c58b73',
+              600: '#af6d53',
+              700: '#8e513a',
+              900: '#432316',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#faf8f5] text-stone-800 font-sans antialiased flex flex-col min-h-screen">
+
+  <!-- ==========================================
+       PRODUCT DATA SOURCE (EDIT YOUR ITEMS HERE)
+       ========================================== -->
+  <script>
+    const PRODUCTS = [
+      {
+        id: 1,
+        name: "Hand-Poured Soy Candle",
+        price: 24.00,
+        originalPrice: 32.00,
+        discount: 25,
+        image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=800&q=80",
+        category: "Handcrafted",
+        description: "Small-batch cedarwood and wild amber scent with a crackling wooden wick."
+      },
+      {
+        id: 2,
+        name: "Floral Foil Letterpress Card",
+        price: 6.50,
+        originalPrice: 6.50,
+        discount: 0,
+        image: "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=800&q=80",
+        category: "Cards",
+        description: "Embossed gold foil botanical illustration on 100% recycled cotton rag paper."
+      },
+      {
+        id: 3,
+        name: "Artisan Ceramic Matcha Bowl",
+        price: 38.00,
+        originalPrice: 48.00,
+        discount: 20,
+        image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80",
+        category: "Handcrafted",
+        description: "Wheel-thrown speckled stoneware finished with a satin moss glaze."
+      },
+      {
+        id: 4,
+        name: "Organic Huggable Bunny Plush",
+        price: 29.00,
+        originalPrice: 35.00,
+        discount: 15,
+        image: "https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=800&q=80",
+        category: "Plushies",
+        description: "Ultra-soft woven linen and organic cotton companion, safe for all ages."
+      },
+      {
+        id: 5,
+        name: "Winter Glow Pine Cone Wreath",
+        price: 52.00,
+        originalPrice: 65.00,
+        discount: 20,
+        image: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80",
+        category: "Seasonal",
+        description: "Handmade preserve of frosted spruce tips, pinecones, and dried cinnamon."
+      },
+      {
+        id: 6,
+        name: "Watercolour Birthday Card Set",
+        price: 18.00,
+        originalPrice: 22.00,
+        discount: 18,
+        image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
+        category: "Cards",
+        description: "Pack of 6 blank cards featuring hand-painted whimsical meadow landscapes."
+      },
+      {
+        id: 7,
+        name: "Handmade Velvet Pocket Bear",
+        price: 22.00,
+        originalPrice: 22.00,
+        discount: 0,
+        image: "https://images.unsplash.com/photo-1556012018-50c5c0da73bf?auto=format&fit=crop&w=800&q=80",
+        category: "Plushies",
+        description: "Vintage-styled plush companion stuffed with organic lavender flowers."
+      },
+      {
+        id: 8,
+        name: "Autumn Harvest Botanical Mug",
+        price: 26.00,
+        originalPrice: 30.00,
+        discount: 12,
+        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+        category: "Seasonal",
+        description: "Comfortable ergonomic handle with hand-painted fall foliage motifs."
+      }
+    ];
+  </script>
+
+  <!-- Navigation -->
+  <header class="sticky top-0 z-40 bg-[#faf8f5]/90 backdrop-blur-md border-b border-stone-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-4">
+      <a href="#" class="flex items-center gap-2 group">
+        <span class="w-10 h-10 rounded-full bg-brand-500 text-white flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+          <i data-lucide="gift" class="w-5 h-5"></i>
+        </span>
+        <div>
+          <span class="font-serif text-xl font-bold tracking-tight text-stone-900 block leading-tight">The Gilded Ribbon</span>
+          <span class="text-[10px] uppercase tracking-widest text-brand-700 font-semibold">Artisan Gift House</span>
+        </div>
+      </a>
+      <nav class="flex items-center gap-6 text-sm font-medium text-stone-600">
+        <a href="#catalogue" class="hover:text-brand-600 transition-colors">Catalog</a>
+        <a href="#about" class="hover:text-brand-600 transition-colors">Our Story</a>
+        <a href="#info" class="hover:text-brand-600 transition-colors">Visit Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-b from-brand-100/60 to-[#faf8f5] py-16 sm:py-24 border-b border-stone-200/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-200/80 text-brand-900 mb-4">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-700"></i> Curated Keepsakes & Wonders
+        </span>
+        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 leading-tight mb-4">
+          Thoughtful gifts for life’s quiet celebrations.
+        </h1>
+        <p class="text-lg text-stone-600 mb-8 leading-relaxed">
+          Explore our collection of handcrafted decor, heartfelt stationery, hand-stitched plushies, and seasonal treasures.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#catalogue" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-stone-900 text-white font-medium hover:bg-stone-800 transition-all shadow-sm hover:shadow-md">
+            Browse Collection <i data-lucide="arrow-down" class="w-4 h-4"></i>
+          </a>
+          <a href="#about" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-stone-300 text-stone-700 font-medium hover:bg-stone-50 transition-all">
+            About Our Workshop
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Catalogue Section -->
+  <main id="catalogue" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+    
+    <!-- Search & Filter Controls -->
+    <div class="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between mb-8 pb-6 border-b border-stone-200">
+      
+      <!-- Category Pills -->
+      <div id="categoryContainer" class="flex flex-wrap items-center gap-2">
+        <!-- Dynamically rendered via JS -->
+      </div>
+
+      <!-- Live Search Bar -->
+      <div class="relative min-w-[280px]">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Search catalog..." 
+          class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all shadow-sm"
+        >
+        <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+      </div>
+    </div>
+
+    <!-- Results Counter -->
+    <div class="flex items-center justify-between text-xs font-semibold text-stone-500 uppercase tracking-wider mb-6">
+      <span id="resultCount">Showing all items</span>
+      <span class="text-stone-400">Viewer Catalog Only</span>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Cards rendered via JS -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-20">
+      <div class="w-16 h-16 bg-stone-100 text-stone-400 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="package-open" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-lg font-semibold text-stone-800 mb-1">No items found</h3>
+      <p class="text-sm text-stone-500 max-w-sm mx-auto">Try clearing your search query or selecting another category filter.</p>
+    </div>
+  </main>
+
+  <!-- About Section -->
+  <section id="about" class="bg-stone-900 text-stone-100 py-16 sm:py-20 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <span class="text-xs uppercase tracking-widest text-brand-500 font-bold">About Our Shop</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+            Crafting connections through mindful gift-giving since 2018.
+          </h2>
+          <p class="text-stone-300 leading-relaxed text-base">
+            The Gilded Ribbon started as a two-person studio table in the back of an independent printmaking guild. Today, we partner with regional artisans, ceramicists, and textile weavers who share our devotion to durable materials, slow production, and intentional packaging.
+          </p>
+          <div class="grid grid-cols-3 gap-6 pt-4 border-t border-stone-800 text-center sm:text-left">
+            <div>
+              <div class="text-2xl font-bold text-white font-serif">100%</div>
+              <div class="text-xs text-stone-400 mt-0.5">Ethically Sourced</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-white font-serif">40+</div>
+              <div class="text-xs text-stone-400 mt-0.5">Local Artisans</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-white font-serif">0%</div>
+              <div class="text-xs text-stone-400 mt-0.5">Plastic Waste</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Shop Details / Info Card -->
+        <div id="info" class="lg:col-span-5 bg-stone-800/80 p-8 rounded-2xl border border-stone-700 shadow-xl">
+          <h3 class="font-serif text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <i data-lucide="map-pin" class="w-5 h-5 text-brand-500"></i> Storefront & Studio
+          </h3>
+          <ul class="space-y-4 text-sm text-stone-300">
+            <li class="flex items-start gap-3">
+              <i data-lucide="compass" class="w-4 h-4 text-stone-400 mt-1 shrink-0"></i>
+              <span><strong>Address:</strong> 424 Artisan Lane, Old Mill District, Portland, OR 97201</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="clock" class="w-4 h-4 text-stone-400 mt-1 shrink-0"></i>
+              <div>
+                <strong>Working Hours:</strong>
+                <p class="text-stone-400 mt-0.5">Mon – Fri: 10:00 AM – 7:00 PM</p>
+                <p class="text-stone-400">Sat – Sun: 11:00 AM – 6:00 PM</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="phone" class="w-4 h-4 text-stone-400 mt-1 shrink-0"></i>
+              <span><strong>Phone:</strong> (555) 234-5678</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-stone-950 text-stone-500 text-xs py-8 border-t border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© 2026 The Gilded Ribbon Gift Shop. All rights reserved.</p>
+      <p>Viewer catalog mode — in-store purchasing only.</p>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       DYNAMIC UI & FILTER CONTROLLER
+       ========================================== -->
+  <script>
+    let activeCategory = "All";
+    let searchQuery = "";
+
+    const productGrid = document.getElementById("productGrid");
+    const categoryContainer = document.getElementById("categoryContainer");
+    const searchInput = document.getElementById("searchInput");
+    const resultCount = document.getElementById("resultCount");
+    const emptyState = document.getElementById("emptyState");
+
+    // Extract unique categories from array
+    function getCategories() {
+      const categories = new Set(PRODUCTS.map(p => p.category));
+      return ["All", ...Array.from(categories)];
+    }
+
+    // Render Filter Buttons
+    function renderCategoryButtons() {
+      const categories = getCategories();
+      categoryContainer.innerHTML = categories.map(cat => {
+        const isActive = cat === activeCategory;
+        const activeClass = isActive 
+          ? "bg-brand-600 text-white shadow-sm" 
+          : "bg-white text-stone-600 border border-stone-200 hover:bg-stone-100";
+        
+        return `
+          <button 
+            onclick="setCategory('${cat}')" 
+            class="px-4 py-2 text-xs font-semibold rounded-full transition-all duration-150 ${activeClass}">
+            ${cat}
+          </button>
+        `;
+      }).join("");
+    }
+
+    // Filter and Render Products
+    function renderProducts() {
+      const filtered = PRODUCTS.filter(product => {
+        const matchesCategory = activeCategory === "All" || product.category === activeCategory;
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                              product.description.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+
+      resultCount.textContent = `Showing ${filtered.length} of ${PRODUCTS.length} items`;
+
+      if (filtered.length === 0) {
+        productGrid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+
+      productGrid.innerHTML = filtered.map(item => {
+        const hasDiscount = item.discount && item.discount > 0;
+        
+        return `
+          <article class="bg-white rounded-2xl border border-stone-200/80 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group">
+            <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+              <img 
+                src="${item.image}" 
+                alt="${item.name}" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+                onerror="this.src='https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'"
+              />
+              <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-stone-800 text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-xs">
+                ${item.category}
+              </span>
+              ${hasDiscount ? `
+                <span class="absolute top-3 right-3 bg-rose-500 text-white text-[11px] font-bold px-2 py-0.5 rounded-full shadow-xs">
+                  -${item.discount}%
+                </span>
+              ` : ''}
+            </div>
+
+            <div class="p-5 flex flex-col flex-grow">
+              <div class="flex items-baseline gap-2 mb-1.5">
+                <span class="text-lg font-bold text-stone-900">$${item.price.toFixed(2)}</span>
+                ${hasDiscount ? `
+                  <span class="text-xs text-stone-400 line-through">$${item.originalPrice.toFixed(2)}</span>
+                ` : ''}
+              </div>
+
+              <h3 class="font-serif font-bold text-stone-900 text-base mb-2 group-hover:text-brand-600 transition-colors">
+                ${item.name}
+              </h3>
+
+              <p class="text-xs text-stone-500 leading-relaxed line-clamp-2 mt-auto">
+                ${item.description}
+              </p>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      lucide.createIcons();
+    }
+
+    function setCategory(cat) {
+      activeCategory = cat;
+      renderCategoryButtons();
+      renderProducts();
+    }
+
+    // Live search listener
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.trim();
+      renderProducts();
+    });
+
+    // Initialize
+    renderCategoryButtons();
+    renderProducts();
+    lucide.createIcons();
+  </script>
+</body>
+</html>
